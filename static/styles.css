@@ -1,0 +1,302 @@
+/* Reset default browser styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensure full height for body and html */
+}
+
+/* Global styles */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+    color: #FFA500; /* Orange color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure body at least takes full viewport height */
+    margin: 0;
+    flex-direction: column;
+    overflow-x: hidden; /* Hide horizontal overflow */
+    position: relative; /* Relative positioning for footer */
+}
+
+/* Animated scrollbar styles */
+/* WebKit (Safari, Chrome) */
+/* Hide scrollbar by default */
+body::-webkit-scrollbar {
+    width: 6px; /* Set width of the scrollbar */
+    height: 6px; /* Set height of the scrollbar */
+    background-color: transparent; /* Transparent background */
+}
+
+/* Track (area where scrollbar runs) */
+body::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent track */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+body::-webkit-scrollbar-thumb {
+    background-color: #888; /* Light gray color for scrollbar handle */
+    border-radius: 3px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker gray color on hover */
+}
+
+/* Handle when active */
+body::-webkit-scrollbar-thumb:active {
+    background-color: #555; /* Darker gray color when active */
+}
+
+/* Firefox */
+/* Hide scrollbar by default */
+body {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #888 transparent; /* Light gray handle with transparent track */
+}
+
+/* Handle on hover */
+body:hover {
+    scrollbar-color: #555 transparent; /* Darker gray handle on hover */
+}
+
+/* Handle when active */
+body:active {
+    scrollbar-color: #555 transparent; /* Darker gray handle when active */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.header p {
+    font-size: 20px;
+    margin: 0;
+}
+
+.filters {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 50px; /* Fully rounded shape */
+    background-color: #333; /* Dark gray background */
+    color: #FFA500; /* Orange text */
+    border: 2px solid #FFA500; /* Orange border */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
+}
+
+.filter-btn.active {
+    background-color: #FFA500; /* Orange background */
+    color: black; /* Black text */
+    border-color: black; /* Black border */
+}
+
+.filter-btn:hover {
+    background-color: #555; /* Darker gray background on hover */
+    border-color: #FFA500; /* Orange border on hover */
+}
+
+.table-container {
+    width: 100%; /* Take full width */
+    max-height: 70vh; /* Limit height with scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: black;
+    border-spacing: 0; /* Ensure no space between cells */
+    table-layout: fixed; /* Prevent table from resizing based on content */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    color: #FFA500; /* Orange color for text */
+    background-color: black;
+    border: none;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+th {
+    background-color: #333; /* Dark gray background for header */
+    color: #FFA500; /* Orange color for header text */
+    font-size: 18px; /* Larger font for headers */
+    font-weight: normal; /* Normal weight */
+    position: sticky; /* Sticky headers */
+    top: 0; /* Stick to the top */
+    z-index: 1; /* Ensure headers appear above content */
+}
+
+td {
+    font-size: 16px; /* Smaller font for content */
+}
+
+tr:nth-child(even) {
+    background-color: #111; /* Darker black for even rows */
+}
+
+.cancelled, .partially-cancelled {
+    color: red;
+    font-weight: bold;
+}
+
+.partially-cancelled::after {
+    content: " (Partially Cancelled)";
+    font-weight: normal;
+}
+
+.notes {
+    font-size: 14px; /* Smaller font for notes */
+    color: red;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+.real-time {
+    position: relative;
+}
+
+/* Signal animation styles */
+
+.signal-container {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+/* Loading spinner styles */
+
+.loadingio-spinner-radio-nq4q5u6dq7r {
+    display: inline-block;
+    width: 17px; /* Adjust as needed */
+    height: 17px; /* Adjust as needed */
+    vertical-align: middle;
+}
+
+.ldio-x2uulkbinbj {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(0.17);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* Adjust as needed */
+}
+
+.ldio-x2uulkbinbj div {
+    position: absolute;
+    box-sizing: border-box;
+    animation: ldio-x2uulkbinbj 1.6666666666666667s linear infinite;
+}
+
+.ldio-x2uulkbinbj div:nth-child(1) {
+    width: 22px;
+    height: 22px;
+    left: 17px;
+    top: 64px;
+    border-radius: 50%;
+    background: #ffa500;
+}
+
+.ldio-x2uulkbinbj div:nth-child(2) {
+    width: 33px;
+    height: 33px;
+    left: 28px;
+    top: 42px;
+    border-radius: 0 33px 0 0;
+    border: 10px solid #ffa500;
+    background: none;
+    animation-delay: 0.16666666666666669s;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.ldio-x2uulkbinbj div:nth-child(3) {
+    width: 55px;
+    height: 55px;
+    left: 28px;
+    top: 20px;
+    border-radius: 0 55px 0 0;
+    border: 10px solid #ffa500;
+    background: none;
+    animation-delay: 0.33333333333333337s;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+@keyframes ldio-x2uulkbinbj {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+footer {
+    color: #FFA500; /* Orange color */
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    position: absolute;
+    bottom: 0; /* Stick footer to the bottom of the viewport */
+    background-color: #333; /* Dark gray background for footer */
+    padding: 10px 0; /* Padding for footer content */
+    box-sizing: border-box; /* Include padding in total width/height */
+}
+
+#error-message {
+    color: #FFA500; /* Orange color */
+    font-size: 14px; /* Smaller font size */
+    text-align: center;
+    padding: 5px 10px; /* Smaller padding */
+    background-color: #000000; /* Black background */
+    border: 1px solid #454545; /* Dark gray border */
+    border-radius: 3px; /* Slightly rounded corners */
+    position: absolute; /* Position absolute for better control */
+    top: 20px; /* Adjust top position */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    display: none; /* Hide by default */
+    animation: fade-in-out 0.5s ease-in-out; /* Animation for fade in and out */
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Transition for hover effect */
+}
+
+/* Animation keyframes */
+@keyframes fade-in-out {
+    0%, 100% {
+        opacity: 0; /* Start and end with opacity 0 */
+    }
+    50% {
+        opacity: 1; /* Fully visible in the middle */
+    }
+}
+
+/* Hover effect */
+#error-message:hover {
+    transform: scale(1.03); /* Scale up slightly on hover */
+    opacity: 0.9; /* Reduce opacity on hover */
+}
