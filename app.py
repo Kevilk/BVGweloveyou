@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 
@@ -76,7 +77,9 @@ def get_departure_board(api_key, station_id):
         else:
             station_name = "Unknown"
         
-        current_time = datetime.now().replace(second=0, microsecond=0)
+        # Berlin timezone
+        berlin_tz = pytz.timezone('Europe/Berlin')
+        current_time = datetime.now(berlin_tz).replace(second=0, microsecond=0)
         
         for departure_elem in root.findall(".//h:Departure", ns):
             departure = {}
@@ -120,7 +123,10 @@ def get_departure_board(api_key, station_id):
                 else:
                     planned_datetime_str = f"{departure['planned_date']} {departure['planned_time']}"
                     rt_datetime = datetime.strptime(planned_datetime_str, "%Y-%m-%d %H:%M:%S")
-                    
+                
+                # Convert to Berlin timezone
+                rt_datetime = berlin_tz.localize(rt_datetime)
+                
                 time_to_departure = (rt_datetime - current_time).total_seconds() // 60
                 
                 if time_to_departure <= 0:
@@ -154,7 +160,7 @@ def search_station():
 @app.route('/departures/<station_id>')
 def show_departures(station_id):
     departures, station_name = get_departure_board(api_key, station_id)
-       
+    
     if departures:
         # Sort departures by real_time or planned_time
         departures_sorted = sorted(departures, key=lambda dep: dep['real_time'] or dep['planned_time'])
@@ -162,17 +168,15 @@ def show_departures(station_id):
     else:
         return render_template('departures.html', error_message="Failed to fetch departures.")
 
-
 @app.route('/api/departures/<station_id>')
 def api_departures(station_id):
     departures, station_name = get_departure_board(api_key, station_id)
-       
+    
     if departures:
         departures_sorted = sorted(departures, key=lambda dep: dep['real_time'] or dep['planned_time'])
         return jsonify(departures=departures_sorted, station_name=station_name)
     else:
         return jsonify(error="Failed to fetch departures."), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)
