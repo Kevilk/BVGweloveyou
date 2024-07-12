@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Search</title>
+    <style>
+/* Global styles */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+    color: #FFA500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    margin: 0; /* Remove default margin */
+    overflow-y: scroll; /* Always show vertical scrollbar */
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+form {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    transition: all 0.3s ease; /* Add transition for smooth animation */
+    transform: scale(1); /* Initial scale */
+}
+
+form.shrink {
+    transform: scale(0.8); /* Shrinking scale */
+    max-width: 350px; /* Reduced width */
+    padding: 10px; /* Adjust padding */
+}
+
+form label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="submit"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #FFA500;
+    background-color: black;
+    color: #FFA500;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+form input[type="text"]::placeholder,
+form input[type="number"]::placeholder {
+    color: #FFA500;
+}
+
+form input[type="submit"] {
+    cursor: pointer;
+    background-color: #FFA500;
+    color: black;
+    border: 1px solid #FFA500;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #333;
+    color: #FFA500;
+}
+
+hr {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+    border-color: #FFA500;
+}
+
+/* Results styling */
+.results-container {
+    width: 100%;
+    max-width: 800px; /* Increased width for larger results */
+    overflow-y: auto;
+    max-height: 70vh; /* Limit height with scrolling */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #111;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px solid #FFA500; /* Add border for visual distinction */
+    transition: all 0.3s ease; /* Add transition for smooth animation */
+}
+
+.results-container.show {
+    max-height: 80vh; /* Expanded height for larger results */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 20px;
+}
+
+ul li a {
+    color: #FFA500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+ul li a:hover {
+    color: #FFF;
+}
+
+ul li ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    font-size: 16px;
+    color: #999;
+}
+
+ul li ul li {
+    margin-bottom: 5px;
+}
+
+p {
+    color: red;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* Animated scrollbar styles */
+/* WebKit (Safari, Chrome) */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #555;
+}
+
+/* Firefox */
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+body:hover {
+    scrollbar-color: #555 transparent;
+}
+
+body:active {
+    scrollbar-color: #555 transparent;
+}
+
+@media (max-width: 768px) {
+    form label {
+        font-size: 16px;
+    }
+
+    form input[type="text"],
+    form input[type="number"],
+    form input[type="submit"] {
+        font-size: 14px;
+    }
+
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    .results-container {
+        max-height: 50vh;
+    }
+
+    ul li a {
+        font-size: 16px;
+    }
+
+    ul li ul {
+        font-size: 14px;
+    }
+}
+    </style>
+</head>
+<body>
+    <h1>Station Search</h1>
+    
+    <!-- Station search form -->
+    <form action="/" method="POST">
+        <label for="station_name">Enter station name:</label>
+        <input type="text" id="station_name" name="station_name" placeholder="Type station name..." required>
+        <br>
+        <label for="max_results">Max results for station search:</label>
+        <input type="number" id="max_results" name="max_results" value="5" min="1" placeholder="5">
+        <br>
+        <input type="submit" value="Search">
+    </form>
+
+    <hr>
+
+    <!-- Display search results -->
+    <div class="results-container">
+        {% if station_names %}
+            <h2>Stations Found:</h2>
+            <ul>
+                {% for station_name in station_names %}
+                    <li>
+                        <a href="{{ url_for('show_departures', station_id=station_info_map[station_name]['extId']) }}">{{ station_name }}</a>
+                        <ul>
+                            {% for product in station_info_map[station_name]['products'] %}
+                                <li>{{ product['name'] }} {{ product['type'] }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Display error message if no stations found -->
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function () {
+                document.querySelector('.results-container').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
