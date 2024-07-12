@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Departure Board</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Station Departure Board</h1>
+        <p id="station_name">{{ station_name }}</p>
+        <p id="error-message" style="color: red; display: none;">No departures available for selected filter.</p>
+    </div>
+
+    <div class="filters">
+        <button class="filter-btn" data-product-type="all" onclick="setFilter('all')">All</button>
+        <button class="filter-btn" data-product-type="Bus" onclick="setFilter('Bus')">Bus</button>
+        <button class="filter-btn" data-product-type="S" onclick="setFilter('S')">S-Bahn</button>
+        <button class="filter-btn" data-product-type="U" onclick="setFilter('U')">U-Bahn</button>
+        <button class="filter-btn" data-product-type="Tram" onclick="setFilter('Tram')">Tram</button>
+        <button class="filter-btn" data-product-type="RE" onclick="setFilter('RE')">Regional</button>
+        <button class="filter-btn" data-product-type="ICE" onclick="setFilter('ICE')">Express</button>
+        <button class="filter-btn" data-product-type="Ferry" onclick="setFilter('Ferry')">Ferry</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Abfahrt um</th>
+                    <th>Linie</th>
+                    <th>Ziel</th>
+                    <th>Abfahrt in</th>
+                </tr>
+            </thead>
+            <tbody id="departure-table">
+                <!-- Departure rows generated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        &copy; 2024 Your Company
+    </footer>
+
+    <script>
+        let currentFilter = 'all';
+
+        function setFilter(productType) {
+            currentFilter = productType;
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const rows = document.querySelectorAll("#departure-table tr");
+            let foundDeparture = false;
+
+            rows.forEach(row => {
+                if (currentFilter === 'all' || row.classList.contains(currentFilter)) {
+                    row.style.display = '';
+                    foundDeparture = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Show error message if no departures found for selected filter
+            const errorMessage = document.getElementById('error-message');
+            if (!foundDeparture) {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        }
+
+        async function fetchAndUpdateDepartures() {
+            const stationId = "{{ station_id }}";
+            try {
+                const response = await fetch(`/api/departures/${stationId}`);
+                const data = await response.json();
+
+                if (data.departures) {
+                    const tbody = document.getElementById('departure-table');
+                    tbody.innerHTML = ''; // Clear existing rows
+
+                    data.departures.forEach(departure => {
+                        const row = document.createElement('tr');
+                        row.className = `${departure.product_type} ${departure.cancelled ? 'cancelled' : ''} ${departure.partially_cancelled ? 'partially-cancelled' : ''}`;
+
+                        const realTime = departure.real_time ? departure.real_time.slice(0, 5) : departure.planned_time.slice(0, 5);
+                        const timeLeftStr = departure.cancelled ? 'Cancelled' : departure.time_left_str;
+
+                        row.innerHTML = `
+                            <td>${realTime}</td>
+                            <td>${departure.name}</td>
+                            <td>${departure.direction}</td>
+                            <td class="departure-time ${departure.real_time ? 'real-time' : ''}">
+                                ${departure.real_time ? '<div class="loadingio-spinner-radio-nq4q5u6dq7r"><div class="ldio-x2uulkbinbj"><div></div><div></div><div></div></div></div><div class="signal-container"><div class="signal"></div><div class="signal"></div><div class="signal"></div></div>' : ''}
+                                ${departure.cancelled ? '<span class="cancelled-text">Cancelled</span>' : timeLeftStr}
+                                ${departure.notes ? '<div class="notes">' + departure.notes.map(note => `<span>${note.txtN}</span>`).join('') + '</div>' : ''}
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+
+                    applyFilter(); // Reapply the current filter after updating the data
+                } else {
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.style.display = 'block';
+                    console.error('Failed to fetch departures:', data.error);
+                }
+            } catch (error) {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.style.display = 'block';
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Fetch and update departures every 20 seconds
+        setInterval(fetchAndUpdateDepartures, 20000);
+
+        // Initial fetch to populate the table
+        fetchAndUpdateDepartures();
+    </script>
+</body>
+</html>
