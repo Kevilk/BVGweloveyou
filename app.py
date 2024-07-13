@@ -130,7 +130,7 @@ def get_departure_board(api_key, station_id):
                 time_to_departure = (rt_datetime - current_time).total_seconds() // 60
                 
                 if time_to_departure <= 0:
-                    departure["time_left_str"] = "Jetz"
+                    departure["time_left_str"] = "Jetzt"
                 else:
                     departure["time_left_str"] = f"{int(time_to_departure)}'"
             
