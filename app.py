@@ -132,7 +132,7 @@ def get_departure_board(api_key, station_id):
                 if time_to_departure <= 0:
                     departure["time_left_str"] = "Jetz"
                 else:
-                    departure["time_left_str"] = f"{int(time_to_departure)} '"
+                    departure["time_left_str"] = f"{int(time_to_departure)}'"
             
             departures.append(departure)
         
