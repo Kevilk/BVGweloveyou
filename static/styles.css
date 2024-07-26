@@ -22,8 +22,8 @@ body {
 
 /* Custom scrollbar styles */
 body::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
+    width: 2px; /* Slim scrollbar */
+    height: 2px; /* Slim horizontal scrollbar */
 }
 
 body::-webkit-scrollbar-track {
@@ -68,24 +68,49 @@ body:hover {
     margin: 0;
 }
 
-/* Fullscreen Mode Styling */
-body:-webkit-full-screen #table-container,
-body:-moz-full-screen #table-container,
-body:-ms-fullscreen #table-container,
-body:fullscreen #table-container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+/* Fullscreen Button Styling */
+#fullscreen-btn {
+    background: none;
+    border: none;
+    color: #FFA500;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: color 0.3s;
+}
+
+#fullscreen-btn:hover {
+    color: #FF8C00;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 767px) {
+    #fullscreen-btn {
+        font-size: 20px; /* Slightly smaller font size for mobile screens */
+        top: 15px; /* Adjust top positioning */
+        right: 15px; /* Adjust right positioning */
+    }
+}
+
+@media (max-width: 480px) {
+    #fullscreen-btn {
+        font-size: 18px; /* Further reduce font size for very small screens */
+        top: 10px; /* Adjust top positioning */
+        right: 10px; /* Adjust right positioning */
+    }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 24px;
+    font-size: 24px; /* Larger font size for fullscreen mode */
 }
 
 th, td {
-    padding: 20px;
+    padding: 20px; /* Adjust padding for larger font size */
     text-align: center;
     border-bottom: 1px solid #444;
 }
@@ -113,6 +138,121 @@ thead {
 
 #fullscreen-btn:hover {
     color: #FF8C00;
+}
+
+/* Styles applied when in fullscreen mode */
+.fullscreen-mode table {
+    font-size: 32px; /* Larger font size for fullscreen mode */
+}
+
+.fullscreen-mode th, .fullscreen-mode td {
+    padding: 30px; /* Adjust padding for larger font size */
+}
+
+.fullscreen-mode .header h1 {
+    font-size: 48px; /* Larger header size for fullscreen */
+}
+
+.fullscreen-mode .header p {
+    font-size: 32px; /* Larger paragraph size for fullscreen */
+}
+
+.fullscreen-mode .filter-btn {
+    font-size: 20px; /* Adjust button font size for fullscreen */
+    padding: 12px 24px; /* Adjust button padding for larger size */
+}
+
+.fullscreen-mode footer {
+    font-size: 16px; /* Larger font size for footer in fullscreen mode */
+}
+
+.fullscreen-mode .notes {
+    font-size: 16px; /* Larger font size for notes in fullscreen mode */
+}
+
+.fullscreen-mode #error-message {
+    font-size: 16px; /* Larger font size for error messages in fullscreen mode */
+}
+/* Responsive Design for Smaller Screens */
+@media (max-width: 767px) {
+    .header {
+        margin: 10px 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .header p {
+        font-size: 16px;
+    }
+
+    #fullscreen-btn {
+        font-size: 20px;
+        top: 15px;
+        right: 15px;
+    }
+
+    table {
+        font-size: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+    }
+
+    .filter-btn {
+        width: calc(50% - 10px);
+        font-size: 12px;
+        padding: 8px;
+        margin: 4px;
+    }
+
+    .filters-container {
+        margin-bottom: 10px;
+    }
+
+    .table-container {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+
+    #fullscreen-btn {
+        font-size: 18px;
+        top: 10px;
+        right: 10px;
+    }
+
+    table {
+        font-size: 16px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .filter-btn {
+        font-size: 10px;
+        padding: 6px;
+        margin: 3px;
+    }
+
+    .filters-container {
+        margin-bottom: 5px;
+    }
+
+    .table-container {
+        margin-top: 5px;
+    }
 }
 
 /* Footer styling */
@@ -229,9 +369,9 @@ footer {
 /* General styles for the filters container */
 .filters-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-direction: column; /* Stack children vertically */
 }
 
 /* Responsive design for mobile screens */
@@ -239,85 +379,50 @@ footer {
     .filters-container {
         position: static;
         width: 100%;
-        height: min-content;
+        height: fit-content; /* Allow height to adjust based on content */
     }
 
     .filters {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 10px;
-        padding: 10px 0;
+        display: flex; /* Ensure filters are displayed as a flex container */
+        flex-wrap: wrap; /* Allow filter buttons to wrap to the next line if needed */
+        justify-content: center; /* Center filter buttons horizontally */
+        margin-top: 3px;
+        padding: 3px 0;
         background: #333;
         border-radius: 8px;
     }
 
     .filter-btn {
-        margin: 8px;
-        border-radius: 8px;
-        padding: 8px;
+        margin: 6px;
+        border-radius: 6px;
+        padding: 6px;
+        justify-content: center;
         font-size: 12px;
-        background: #FFA500;
-        color: #333;
-        border: 2px solid #FFA500;
+        background: #FFA500; /* Set a background color for the filter buttons */
+        color: #333; /* Set the text color for the filter buttons */
+        border: 2px solid #FFA500; /* Add a border to match the background color */
+        transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
 
     .filter-btn:hover {
-        background: #e68a00;
-        color: #fff;
-        border-color: #e68a00;
+        background: #e68a00; /* Change background on hover */
+        color: #fff; /* Change text color on hover */
+        border-color: #e68a00; /* Change border color on hover */
     }
 
     .filter-btn i {
-        display: none;
+        display: none; /* Hide icons on mobile screens if present */
     }
 }
 
-/* Responsive design for very small screens */
 @media (max-width: 480px) {
-    .header h1 {
-        font-size: 20px;
-    }
-
-    .header p {
-        font-size: 12px;
-    }
-
     .filter-btn {
         font-size: 10px;
         padding: 6px;
         margin: 4px;
     }
-
-    th {
-        font-size: 14px;
-    }
-
-    td {
-        font-size: 10px;
-    }
-
-    .notes {
-        font-size: 8px;
-    }
-
-    #error-message {
-        font-size: 8px;
-        padding: 1px 2px;
-    }
-
-    .header {
-        margin: 5px 0;
-    }
-
-    .filters-container {
-        margin-bottom: 5px;
-    }
-
-    .table-container {
-        margin-top: 2px;
-    }
 }
+
 
 /* Table container with scrolling */
 .table-container {
@@ -340,8 +445,8 @@ table {
 
 /* Slim and barely visible scrollbar for tables */
 .table-container::-webkit-scrollbar {
-    width: 1px;
-    height: 1px;
+    width: 1px; /* Slim scrollbar */
+    height: 1px; /* Slim horizontal scrollbar */
 }
 
 .table-container::-webkit-scrollbar-track {
@@ -394,16 +499,17 @@ td {
 }
 
 /* Adjust column widths */
-th:nth-child(1), td:nth-child(1) { width: 15%; }
-th:nth-child(2), td:nth-child(2) { width: 15%; }
-th:nth-child(3), td:nth-child(3) { width: 50%; }
-th:nth-child(4), td:nth-child(4) { width: 20%; }
+/* Adjust column widths */
+th:nth-child(1), td:nth-child(1) { width: 15%; } /* Abf. um */
+th:nth-child(2), td:nth-child(2) { width: 15%; } /* Linie */
+th:nth-child(3), td:nth-child(3) { width: 50%; } /* Ziel */
+th:nth-child(4), td:nth-child(4) { width: 20%; } /* Abf. in */
 
 /* Align content within cells */
 th, td {
-    padding: 10px;
-    text-align: left;
-    vertical-align: middle;
+    padding: 10px; /* Space inside cells */
+    text-align: left; /* Horizontal alignment */
+    vertical-align: middle; /* Vertical alignment */
 }
 
 /* Center table within its container */
@@ -412,59 +518,39 @@ th, td {
 }
 
 table {
-    margin: 0 auto;
+    margin: 0 auto; /* Center table horizontally if it's smaller than the container */
 }
 
 /* Optional: Add spacing to container if needed */
 .table-wrapper {
     display: flex;
     justify-content: space-between;
-    overflow-x: auto;
+    overflow-x: auto; /* Enable scrolling if needed */
 }
 
 tr:nth-child(even) {
     background-color: #111;
 }
 
-/* Styles for cancelled departures */
-.cancelled-row {
-    background-color: #ff0000;
-    color: red;
-    font-weight: bold;
-}
-
-/* Additional styling for partially cancelled departures */
-.partially-cancelled-row {
-    background-color: #ff9500;
-    color: rgb(255, 0, 0);
-    font-weight: bold;
-}
-.cancelled, .partially-cancelled {
-    color: red;
-    font-weight: bold;
-}
-
-.partially-cancelled::after {
-    content: " (Partially Cancelled)";
-    font-weight: normal;
-}
-
 /* Note styling */
 .notes {
     font-size: 10px;
     color: red;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-    line-height: 1;
-    padding: 5px;
-    margin: 1px 0;
+    word-break: break-all;/* Ensures text wraps to the next line */
+    word-wrap: break-word; /* Breaks long words to fit within the container */
+    overflow-wrap: anywhere; /* Ensures text doesn't overflow its container */
+    line-height: 1; /* Adjust line height for better readability */
+    padding: 5px; /* Add padding for better spacing */
+    margin: 1px 0; /* Add margin for spacing between notes *//* Optional border for better visibility */
+  /* Optional border radius for rounded corners */
+     /* Optional background color for better contrast */
 }
 
-/* Responsive design for small screens */
+/* Responsive design for very small screens */
 @media (max-width: 480px) {
     .notes {
-        font-size: 14px;
-        padding: 8px;
+        font-size: 14px; /* Slightly smaller font size for small screens */
+        padding: 8px; /* Adjust padding for small screens */
     }
 }
 
@@ -579,4 +665,96 @@ tr:nth-child(even) {
 #error-message:hover {
     transform: scale(1.03);
     opacity: 0.9;
+}
+
+/* Responsive design for mobile screens */
+@media (max-width: 767px) {
+    .header {
+        margin: 10px 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+
+    th {
+        font-size: 18px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    .notes {
+        font-size: 14px;
+    }
+
+    #error-message {
+        font-size: 10px;
+        padding: 2px 4px;
+    }
+
+    .filter-btn {
+        width: calc(50% - 50px);
+        font-size: 12px;
+        padding: 8px;
+        margin: 5px;
+    }
+
+    .filters-container {
+        margin-bottom: 10px;
+    }
+
+    .table-container {
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    .filter-btn {
+        font-size: 10px;
+        padding: 6px;
+        margin: 4px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 10px;
+    }
+
+    .notes {
+        font-size: 8px;
+    }
+
+    #error-message {
+        font-size: 8px;
+        padding: 1px 2px;
+    }
+
+    .header {
+        margin: 5px 0;
+    }
+
+    .filters-container {
+        margin-bottom: 5px;
+    }
+
+    .table-container {
+        margin-top: 2px;
+    }
 }
