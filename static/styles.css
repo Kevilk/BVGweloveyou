@@ -1,80 +1,65 @@
+@import url('https://fonts.cdnfonts.com/css/apple-ii-screen-typeface');
+
 /* Reset default browser styles */
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure full height for body and html */
+    height: 100%;
 }
 
 /* Global styles */
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Apple II Screen Typeface', 'Courier New', Courier, monospace;
     background-color: black;
-    color: #FFA500; /* Orange color */
+    color: #FFA500;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Ensure body at least takes full viewport height */
-    margin: 0;
     flex-direction: column;
-    overflow-x: hidden; /* Hide horizontal overflow */
-    position: relative; /* Relative positioning for footer */
+    justify-content: space-between;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* Animated scrollbar styles */
-/* WebKit (Safari, Chrome) */
-/* Hide scrollbar by default */
+/* Custom scrollbar styles */
 body::-webkit-scrollbar {
-    width: 6px; /* Set width of the scrollbar */
-    height: 6px; /* Set height of the scrollbar */
-    background-color: transparent; /* Transparent background */
+    width: 2px; /* Slim scrollbar */
+    height: 2px; /* Slim horizontal scrollbar */
 }
 
-/* Track (area where scrollbar runs) */
 body::-webkit-scrollbar-track {
-    background-color: transparent; /* Transparent track */
+    background-color: transparent;
 }
 
-/* Handle (the draggable part of the scrollbar) */
 body::-webkit-scrollbar-thumb {
-    background-color: #888; /* Light gray color for scrollbar handle */
-    border-radius: 3px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth transition */
+    background-color: #888;
+    border-radius: 2px;
 }
 
-/* Handle on hover */
 body::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Darker gray color on hover */
+    background-color: #555;
 }
 
-/* Handle when active */
-body::-webkit-scrollbar-thumb:active {
-    background-color: #555; /* Darker gray color when active */
-}
-
-/* Firefox */
-/* Hide scrollbar by default */
+/* Custom scrollbar styles for Firefox */
 body {
-    scrollbar-width: thin; /* Thin scrollbar */
-    scrollbar-color: #888 transparent; /* Light gray handle with transparent track */
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
 }
 
-/* Handle on hover */
 body:hover {
-    scrollbar-color: #555 transparent; /* Darker gray handle on hover */
+    scrollbar-color: #555 transparent;
 }
 
-/* Handle when active */
-body:active {
-    scrollbar-color: #555 transparent; /* Darker gray handle when active */
-}
-
+/* Header styling */
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 16px 0;
+    z-index: 1000;
 }
 
 .header h1 {
-    font-size: 36px;
+    font-size: 32px;
     margin: 0;
 }
 
@@ -83,79 +68,342 @@ body:active {
     margin: 0;
 }
 
-.filters {
+/* Fullscreen Mode Styling */
+body:-webkit-full-screen #table-container,
+body:-moz-full-screen #table-container,
+body:-ms-fullscreen #table-container,
+body:fullscreen #table-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Hide scrollbars */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 24px; /* Larger font size for fullscreen mode */
+}
+
+th, td {
+    padding: 20px; /* Adjust padding for larger font size */
+    text-align: center;
+    border-bottom: 1px solid #444;
+}
+
+thead {
+    background-color: #333;
+}
+
+.error-message {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+#fullscreen-btn {
+    background: none;
+    border: none;
+    color: #FFA500;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#fullscreen-btn:hover {
+    color: #FF8C00;
+}
+
+/* Footer styling */
+footer {
+    font-family: 'Courier New', Courier, monospace;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #f3a81e;
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+    border-bottom: 6px solid #333;
+    border-top: 6px solid #333;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive footer adjustments */
+@media (max-width: 767px) {
+    footer {
+        font-size: 10px;
+        padding: 8px;
+    }
+}
+
+/* Filter button styling */
+.filters-container {
     text-align: center;
     margin-bottom: 20px;
 }
 
 .filter-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 50px; /* Fully rounded shape */
-    background-color: #333; /* Dark gray background */
-    color: #FFA500; /* Orange text */
-    border: 2px solid #FFA500; /* Orange border */
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin: 4px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #333, #555);
+    color: #FFA500;
+    border: 2px solid transparent;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
+    transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+    background-clip: padding-box;
 }
 
-.filter-btn.active {
-    background-color: #FFA500; /* Orange background */
-    color: black; /* Black text */
-    border-color: black; /* Black border */
+.filter-btn i {
+    margin-right: 6px;
 }
 
 .filter-btn:hover {
-    background-color: #555; /* Darker gray background on hover */
-    border-color: #FFA500; /* Orange border on hover */
+    background: linear-gradient(145deg, #555, #777);
+    border-color: #FFA500;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+    filter: brightness(1.15);
 }
 
+.filter-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 165, 0, 0.6);
+}
+
+.filter-btn:active {
+    background: linear-gradient(145deg, #FF8C00, #FFA500);
+    color: black;
+    border-color: black;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.4);
+    transform: scale(0.98);
+}
+
+.filter-btn.active {
+    background: linear-gradient(145deg, #FFA500, #FF8C00);
+    color: black;
+    border-color: black;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.filter-btn.loading {
+    background: transparent;
+    color: transparent;
+    border-color: #FFA500;
+    position: relative;
+}
+
+.filter-btn.loading::after {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #FFA500;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* General styles for the filters container */
+.filters-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-direction: column; /* Stack children vertically */
+}
+
+/* Responsive design for mobile screens */
+@media (max-width: 767px) {
+    .filters-container {
+        position: static;
+        width: 100%;
+        height: min-content; /* Allow height to adjust based on content */
+    }
+
+    .filters {
+        display: flex; /* Ensure filters are displayed as a flex container */
+        flex-wrap: wrap; /* Allow filter buttons to wrap to the next line if needed */
+        justify-content: center; /* Center filter buttons horizontally */
+        margin-top: 10px;
+        padding: 10px 0;
+        background: #333;
+        border-radius: 8px;
+    }
+
+    .filter-btn {
+        margin: 8px;
+        border-radius: 8px;
+        padding: 8px;
+        justify-content: center;
+        font-size: 12px;
+        background: #FFA500; /* Set a background color for the filter buttons */
+        color: #333; /* Set the text color for the filter buttons */
+        border: 2px solid #FFA500; /* Add a border to match the background color */
+        transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .filter-btn:hover {
+        background: #e68a00; /* Change background on hover */
+        color: #fff; /* Change text color on hover */
+        border-color: #e68a00; /* Change border color on hover */
+    }
+
+    .filter-btn i {
+        display: none; /* Hide icons on mobile screens if present */
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-btn {
+        font-size: 10px;
+        padding: 6px;
+        margin: 4px;
+    }
+}
+
+
+/* Table container with scrolling */
 .table-container {
-    width: 100%; /* Take full width */
-    max-height: 70vh; /* Limit height with scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
-    white-space: nowrap; /* Prevent text wrapping */
+    width: 100%;
+    max-height: 70vh;
+    overflow: auto;
+    white-space: nowrap;
+    flex: 1;
+    margin-top: 10px;
 }
 
+/* Table styling */
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-bottom: 20px;
     background-color: black;
-    border-spacing: 0; /* Ensure no space between cells */
-    table-layout: fixed; /* Prevent table from resizing based on content */
+    border-spacing: 0;
+    table-layout: auto;
 }
 
+/* Slim and barely visible scrollbar for tables */
+.table-container::-webkit-scrollbar {
+    width: 1px; /* Slim scrollbar */
+    height: 1px; /* Slim horizontal scrollbar */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 2px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.table-container {
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+.table-container:hover {
+    scrollbar-color: #555 transparent;
+}
+
+/* Table cell and header styling */
 th, td {
-    padding: 10px;
+    padding: 4px;
     text-align: left;
-    color: #FFA500; /* Orange color for text */
+    color: #FFA500;
     background-color: black;
     border: none;
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 th {
-    background-color: #333; /* Dark gray background for header */
-    color: #FFA500; /* Orange color for header text */
-    font-size: 18px; /* Larger font for headers */
-    font-weight: normal; /* Normal weight */
-    position: sticky; /* Sticky headers */
-    top: 0; /* Stick to the top */
-    z-index: 1; /* Ensure headers appear above content */
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #333;
+    color: #FFA500;
+    font-size: 24px;
+    font-weight: normal;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 td {
-    font-size: 16px; /* Smaller font for content */
+    font-size: 16px;
+}
+
+/* Adjust column widths */
+/* Adjust column widths */
+th:nth-child(1), td:nth-child(1) { width: 15%; } /* Abf. um */
+th:nth-child(2), td:nth-child(2) { width: 15%; } /* Linie */
+th:nth-child(3), td:nth-child(3) { width: 50%; } /* Ziel */
+th:nth-child(4), td:nth-child(4) { width: 20%; } /* Abf. in */
+
+/* Align content within cells */
+th, td {
+    padding: 10px; /* Space inside cells */
+    text-align: left; /* Horizontal alignment */
+    vertical-align: middle; /* Vertical alignment */
+}
+
+/* Center table within its container */
+.table-container {
+    text-align: center;
+}
+
+table {
+    margin: 0 auto; /* Center table horizontally if it's smaller than the container */
+}
+
+/* Optional: Add spacing to container if needed */
+.table-wrapper {
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto; /* Enable scrolling if needed */
 }
 
 tr:nth-child(even) {
-    background-color: #111; /* Darker black for even rows */
+    background-color: #111;
+}
+/* Styles for cancelled departures */
+.cancelled-row {
+    background-color: #ff0000; /* Light red background for cancelled departures */
+    color: red; /* Red text color to match the cancelled text */
+    font-weight: bold; /* Bold text for emphasis */
 }
 
+/* Additional styling for partially cancelled departures */
+.partially-cancelled-row {
+    background-color: #ff9500; /* Light orange background for partially cancelled departures */
+    color: rgb(255, 0, 0); /* Orange text color for partially cancelled text */
+    font-weight: bold; /* Bold text for emphasis */
+}
 .cancelled, .partially-cancelled {
     color: red;
     font-weight: bold;
@@ -166,31 +414,44 @@ tr:nth-child(even) {
     font-weight: normal;
 }
 
+/* Note styling */
 .notes {
-    font-size: 14px; /* Smaller font for notes */
+    font-size: 10px;
     color: red;
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    /* Ensures text wraps to the next line */
+    word-wrap: break-word; /* Breaks long words to fit within the container */
+    overflow-wrap: anywhere; /* Ensures text doesn't overflow its container */
+    line-height: 1; /* Adjust line height for better readability */
+    padding: 5px; /* Add padding for better spacing */
+    margin: 1px 0; /* Add margin for spacing between notes *//* Optional border for better visibility */
+  /* Optional border radius for rounded corners */
+     /* Optional background color for better contrast */
 }
 
+/* Responsive design for very small screens */
+@media (max-width: 480px) {
+    .notes {
+        font-size: 14px; /* Slightly smaller font size for small screens */
+        padding: 8px; /* Adjust padding for small screens */
+    }
+}
+
+/* Signal animation container */
 .real-time {
     position: relative;
 }
-
-/* Signal animation styles */
 
 .signal-container {
     position: relative;
     display: inline-block;
     vertical-align: middle;
 }
-/* Loading spinner styles */
 
+/* Loading spinner styling */
 .loadingio-spinner-radio-nq4q5u6dq7r {
     display: inline-block;
-    width: 17px; /* Adjust as needed */
-    height: 17px; /* Adjust as needed */
+    width: 17px;
+    height: 17px;
     vertical-align: middle;
 }
 
@@ -200,7 +461,7 @@ tr:nth-child(even) {
     position: relative;
     transform: translateZ(0) scale(0.17);
     backface-visibility: hidden;
-    transform-origin: 0 0; /* Adjust as needed */
+    transform-origin: 0 0;
 }
 
 .ldio-x2uulkbinbj div {
@@ -256,47 +517,126 @@ tr:nth-child(even) {
     }
 }
 
-footer {
-    color: #FFA500; /* Orange color */
-    text-align: center;
-    font-size: 14px;
-    width: 100%;
-    position: absolute;
-    bottom: 0; /* Stick footer to the bottom of the viewport */
-    background-color: #333; /* Dark gray background for footer */
-    padding: 10px 0; /* Padding for footer content */
-    box-sizing: border-box; /* Include padding in total width/height */
-}
-
+/* Error message styling */
 #error-message {
-    color: #FFA500; /* Orange color */
-    font-size: 14px; /* Smaller font size */
+    color: #FFA500;
+    font-size: 12px;
     text-align: center;
-    padding: 5px 10px; /* Smaller padding */
-    background-color: #000000; /* Black background */
-    border: 1px solid #454545; /* Dark gray border */
-    border-radius: 3px; /* Slightly rounded corners */
-    position: absolute; /* Position absolute for better control */
-    top: 20px; /* Adjust top position */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    display: none; /* Hide by default */
-    animation: fade-in-out 0.5s ease-in-out; /* Animation for fade in and out */
-    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Transition for hover effect */
+    padding: 4px 8px;
+    background-color: #000000;
+    border: 1px solid #454545;
+    border-radius: 3px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    animation: fade-in-out 0.5s ease-in-out;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
-/* Animation keyframes */
 @keyframes fade-in-out {
     0%, 100% {
-        opacity: 0; /* Start and end with opacity 0 */
+        opacity: 0;
     }
     50% {
-        opacity: 1; /* Fully visible in the middle */
+        opacity: 1;
     }
 }
 
-/* Hover effect */
 #error-message:hover {
-    transform: scale(1.03); /* Scale up slightly on hover */
-    opacity: 0.9; /* Reduce opacity on hover */
+    transform: scale(1.03);
+    opacity: 0.9;
+}
+
+/* Responsive design for mobile screens */
+@media (max-width: 767px) {
+    .header {
+        margin: 10px 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+
+    th {
+        font-size: 18px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    .notes {
+        font-size: 14px;
+    }
+
+    #error-message {
+        font-size: 10px;
+        padding: 2px 4px;
+    }
+
+    .filter-btn {
+        width: calc(50% - 50px);
+        font-size: 12px;
+        padding: 8px;
+        margin: 5px;
+    }
+
+    .filters-container {
+        margin-bottom: 10px;
+    }
+
+    .table-container {
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    .filter-btn {
+        font-size: 10px;
+        padding: 6px;
+        margin: 4px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 10px;
+    }
+
+    .notes {
+        font-size: 8px;
+    }
+
+    #error-message {
+        font-size: 8px;
+        padding: 1px 2px;
+    }
+
+    .header {
+        margin: 5px 0;
+    }
+
+    .filters-container {
+        margin-bottom: 5px;
+    }
+
+    .table-container {
+        margin-top: 2px;
+    }
 }
