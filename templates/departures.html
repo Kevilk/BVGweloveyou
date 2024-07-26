@@ -4,56 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Station Departure Board</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.cdnfonts.com/css/apple-ii-screen-typeface" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="header">
         <h1>Station Departure Board</h1>
         <p id="station_name">{{ station_name }}</p>
-        <p id="error-message" style="color: red; display: none;">No departures available for selected filter.</p>
+        <button id="fullscreen-btn" title="Enter Fullscreen"><i class="fas fa-expand"></i></button>
     </div>
 
-    <div class="filters">
-        <button class="filter-btn" data-product-type="all" onclick="setFilter('all')">All</button>
-        <button class="filter-btn" data-product-type="Bus" onclick="setFilter('Bus')">Bus</button>
-        <button class="filter-btn" data-product-type="S" onclick="setFilter('S')">S-Bahn</button>
-        <button class="filter-btn" data-product-type="U" onclick="setFilter('U')">U-Bahn</button>
-        <button class="filter-btn" data-product-type="Tram" onclick="setFilter('Tram')">Tram</button>
-        <button class="filter-btn" data-product-type="RE" onclick="setFilter('RE')">Regional</button>
-        <button class="filter-btn" data-product-type="ICE" onclick="setFilter('ICE')">Express</button>
-        <button class="filter-btn" data-product-type="Ferry" onclick="setFilter('Ferry')">Ferry</button>
+    <div class="filters-container">
+        <div class="filters">
+            <button class="filter-btn" data-product-type="all" onclick="setFilter('all')">All</button>
+            <button class="filter-btn" data-product-type="Bus" onclick="setFilter('Bus')">Bus</button>
+            <button class="filter-btn" data-product-type="S" onclick="setFilter('S')">S-Bahn</button>
+            <button class="filter-btn" data-product-type="U" onclick="setFilter('U')">U-Bahn</button>
+            <button class="filter-btn" data-product-type="Tram" onclick="setFilter('Tram')">Tram</button>
+            <button class="filter-btn" data-product-type="RE" onclick="setFilter('RE')">Regional</button>
+            <button class="filter-btn" data-product-type="ICE" onclick="setFilter('ICE')">Express</button>
+            <button class="filter-btn" data-product-type="Ferry" onclick="setFilter('Ferry')">Ferry</button>
+        </div>
     </div>
 
-    <div class="table-container">
+    <div class="table-container" id="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>Abfahrt um</th>
+                    <th>Abf. um</th>
                     <th>Linie</th>
                     <th>Ziel</th>
-                    <th>Abfahrt in</th>
+                    <th>Abf. in</th>
                 </tr>
             </thead>
             <tbody id="departure-table">
                 <!-- Departure rows generated dynamically -->
+                <tr id="error-row" style="display: none;">
+                    <td colspan="4" class="error-message">No departures available for selected filter.</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
     <footer>
-        Developed By Kevil
+        DEVELOPED BY KEVIL
     </footer>
 
     <script>
+        function toggleFullscreen() {
+            const tableContainer = document.getElementById('table-container');
+            const isFullscreen = document.fullscreenElement === tableContainer;
+
+            if (!isFullscreen) {
+                if (tableContainer.requestFullscreen) {
+                    tableContainer.requestFullscreen();
+                } else if (tableContainer.mozRequestFullScreen) { // Firefox
+                    tableContainer.mozRequestFullScreen();
+                } else if (tableContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    tableContainer.webkitRequestFullscreen();
+                } else if (tableContainer.msRequestFullscreen) { // IE/Edge
+                    tableContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
         let currentFilter = 'all';
 
         function setFilter(productType) {
             currentFilter = productType;
             applyFilter();
+            updateActiveFilterButton(productType);
         }
 
         function applyFilter() {
-            const rows = document.querySelectorAll("#departure-table tr");
+            const rows = document.querySelectorAll("#departure-table tr:not(#error-row)");
             let foundDeparture = false;
 
             rows.forEach(row => {
@@ -66,23 +102,37 @@
             });
 
             // Show error message if no departures found for selected filter
-            const errorMessage = document.getElementById('error-message');
+            const errorRow = document.getElementById('error-row');
             if (!foundDeparture) {
-                errorMessage.style.display = 'block';
+                errorRow.style.display = 'table-row';
             } else {
-                errorMessage.style.display = 'none';
+                errorRow.style.display = 'none';
             }
+        }
+
+        function updateActiveFilterButton(productType) {
+            const buttons = document.querySelectorAll(".filter-btn");
+            buttons.forEach(button => {
+                if (button.getAttribute('data-product-type') === productType) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
         }
 
         async function fetchAndUpdateDepartures() {
             const stationId = "{{ station_id }}";
             try {
                 const response = await fetch(`/api/departures/${stationId}`);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
                 const data = await response.json();
 
                 if (data.departures) {
                     const tbody = document.getElementById('departure-table');
-                    tbody.innerHTML = ''; // Clear existing rows
+                    tbody.querySelectorAll('tr:not(#error-row)').forEach(row => row.remove()); // Clear existing rows except error row
 
                     data.departures.forEach(departure => {
                         const row = document.createElement('tr');
@@ -106,14 +156,10 @@
 
                     applyFilter(); // Reapply the current filter after updating the data
                 } else {
-                    const errorMessage = document.getElementById('error-message');
-                    errorMessage.style.display = 'block';
-                    console.error('Failed to fetch departures:', data.error);
+                    console.error('No departures available:', data.error);
                 }
             } catch (error) {
-                const errorMessage = document.getElementById('error-message');
-                errorMessage.style.display = 'block';
-                console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error.message);
             }
         }
 
@@ -122,6 +168,21 @@
 
         // Initial fetch to populate the table
         fetchAndUpdateDepartures();
+
+        // Initial check to set button visibility
+
+        document.addEventListener('fullscreenchange', () => {
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (document.fullscreenElement) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                fullscreenBtn.title = 'Exit Fullscreen';
+            } else {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                fullscreenBtn.title = 'Enter Fullscreen';
+            }
+        });
+
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
     </script>
 </body>
 </html>
