@@ -1,0 +1,361 @@
+/* Global styles */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1a1a1a;
+    color: #FFA500;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Header styling */
+header {
+    background-color: #333;
+    color: #FFA500;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo img {
+    height: 40px;
+}
+
+header .menu {
+    display: flex;
+    gap: 15px;
+}
+
+header .menu a {
+    color: #FFA500;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+header .menu a:hover {
+    background-color: #FFA500;
+    color: #222;
+}
+
+/* Main content styling */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 80px auto 80px; /* Increased bottom margin for footer space */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Container for form and results */
+.container-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px; /* Add margin for spacing */
+}
+
+/* Form container styling */
+.form-container {
+    background-color: #111;
+    border: 2px solid #FFA500;
+    border-radius: 8px;
+    padding: 15px;
+    box-sizing: border-box;
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Results container styling */
+.results-container {
+    background-color: #111;
+    border: 2px solid #FFA500;
+    border-radius: 8px;
+    padding: 15px;
+    box-sizing: border-box;
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Form container specific styling */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    margin-bottom: 5px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"] {
+    background-color: #222;
+    color: #FFA500;
+    border: 1px solid #FFA500;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.form-container input[type="submit"] {
+    background-color: #FFA500;
+    color: #222;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #222;
+    color: #FFA500;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+.form-container input[type="submit"]:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translateY(1px);
+}
+
+/* Details Container */
+.details-container {
+    display: none;
+    margin-top: 10px;
+}
+
+.details-container.active {
+    display: block;
+}
+
+.departure-button {
+    background-color: #FFA500;
+    color: #222;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.departure-button:hover {
+    background-color: #222;
+    color: #FFA500;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+.departure-button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translateY(1px);
+}
+
+.products-list {
+    list-style: none;
+    padding: 0;
+}
+
+.products-list li {
+    margin-bottom: 5px;
+}
+
+/* FAQ and About Us container styling */
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px; /* Ensure spacing from the footer */
+}
+
+.faq-about-container {
+    background-color: #222; /* Dark background to match theme */
+    border: 2px solid #FFA500; /* Orange border for theme consistency */
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    position: relative; /* Ensure positioning for the outline */
+}
+
+.faq, .about-us {
+    width: 48%;
+    box-sizing: border-box;
+    position: relative; /* Ensure positioning for the outline */
+    background-color: #222; /* Slightly lighter dark background */
+    border: 2px solid #FFA500; /* Orange border to match theme */
+    border-radius: 8px;
+    padding: 15px; /* Ensure padding inside border */
+}
+
+/* FAQ and About Us specific styles */
+.faq-item, .about-us-content {
+    margin-bottom: 15px;
+}
+
+.faq-question {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.faq-answer {
+    font-size: smaller;
+    display: none;
+    margin-top: 5px;
+    background-color: #1a1a1a; /* Darker background to distinguish from the main background */
+    color: #FFA500; /* Text color to match the theme's accent color */
+    border: 1px solid #FFA500; /* Optional: border to highlight the answer */
+    border-radius: 4px; /* Rounded corners for a softer look */
+    padding: 10px; /* Add padding for better spacing */
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-item {
+    margin-bottom: 10px;
+}
+
+.about-us-content {
+    font-size: 16px;
+}
+/* Footer styling */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #FFA500;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+footer .footer-menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+footer .footer-menu a {
+    color: #FFA500;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+footer .footer-menu a:hover {
+    background-color: #FFA500;
+    color: #222;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .container-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-container, .results-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .info-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .faq-about-container {
+        flex-direction: column;
+    }
+
+    .faq, .about-us {
+        width: 100%;
+    }
+}
+
+.station-link {
+    color: #007bff; /* Primary theme color for links */
+    text-decoration: none; /* Remove underline */
+    display: inline-flex;
+    align-items: center;
+}
+
+.station-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: #0056b3; /* Darker shade for hover */
+}
+
+.station-link:focus {
+    outline: 2px solid #0056b3; /* Focus outline for accessibility */
+    outline-offset: 2px;
+}
+
+.station-link .link-icon {
+    margin-left: 5px; /* Space between text and icon */
+}
