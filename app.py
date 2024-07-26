@@ -117,12 +117,16 @@ def get_departure_board(api_key, station_id):
             
             else:
                 # Calculate time left to departure
-                if departure["real_time"]:
+                if departure["real_time"] and departure["real_date"]:
                     rt_datetime_str = f"{departure['real_date']} {departure['real_time']}"
-                    rt_datetime = datetime.strptime(rt_datetime_str, "%Y-%m-%d %H:%M:%S")
                 else:
-                    planned_datetime_str = f"{departure['planned_date']} {departure['planned_time']}"
-                    rt_datetime = datetime.strptime(planned_datetime_str, "%Y-%m-%d %H:%M:%S")
+                    rt_datetime_str = f"{departure['planned_date']} {departure['planned_time']}"
+                
+                try:
+                    rt_datetime = datetime.strptime(rt_datetime_str, "%Y-%m-%d %H:%M:%S")
+                except ValueError:
+                    # Handle cases where time format might be different
+                    rt_datetime = datetime.strptime(rt_datetime_str, "%Y-%m-%d %H:%M")
                 
                 # Convert to Berlin timezone
                 rt_datetime = berlin_tz.localize(rt_datetime)
@@ -134,6 +138,7 @@ def get_departure_board(api_key, station_id):
                 else:
                     departure["time_left_str"] = f"{int(time_to_departure)}'"
             
+            departure["datetime"] = rt_datetime  # Add the datetime object for sorting
             departures.append(departure)
         
         return departures, station_name
@@ -162,8 +167,8 @@ def show_departures(station_id):
     departures, station_name = get_departure_board(api_key, station_id)
     
     if departures:
-        # Sort departures by real_time or planned_time
-        departures_sorted = sorted(departures, key=lambda dep: dep['real_time'] or dep['planned_time'])
+        # Sort departures by datetime object
+        departures_sorted = sorted(departures, key=lambda dep: dep['datetime'])
         return render_template('departures.html', departures=departures_sorted, station_name=station_name, station_id=station_id)
     else:
         return render_template('departures.html', error_message="Failed to fetch departures.")
@@ -173,7 +178,7 @@ def api_departures(station_id):
     departures, station_name = get_departure_board(api_key, station_id)
     
     if departures:
-        departures_sorted = sorted(departures, key=lambda dep: dep['real_time'] or dep['planned_time'])
+        departures_sorted = sorted(departures, key=lambda dep: dep['datetime'])
         return jsonify(departures=departures_sorted, station_name=station_name)
     else:
         return jsonify(error="Failed to fetch departures."), 500
