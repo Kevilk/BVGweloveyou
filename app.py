@@ -10,7 +10,7 @@ app = Flask(__name__)
 api_key = "kevil-46e5-85e7-f0cb650fe43b"
 
 def get_station_names(api_key, station_name, max_results):
-    url = "https://vbb.demo.hafas.de/fahrinfo/restproxy/previous/location.name"
+    url = "https://vbb.demo.hafas.de/fahrinfo/restproxy/latest/location.name"
     params = {
         "accessId": api_key,
         "input": station_name,
@@ -59,7 +59,7 @@ def get_station_names(api_key, station_name, max_results):
         return None, None
 
 def get_departure_board(api_key, station_id):
-    url = f"https://vbb.demo.hafas.de/fahrinfo/restproxy/previous/departureBoard?accessId={api_key}&extId={station_id}&duration=60"
+    url = f"https://vbb.demo.hafas.de/fahrinfo/restproxy/latest/departureBoard?accessId={api_key}&extId={station_id}&duration=60"
     
     try:
         response = requests.get(url)
